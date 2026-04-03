@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waprep Programming Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: #09090b;
+            color: #e5e5e5;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 12px;
+            height: 1.1em;
+            background-color: #4ade80;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+            margin-left: 4px;
+            transform: translateY(-2px);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .screen-glow {
+            box-shadow: inset 0 0 150px rgba(74, 222, 128, 0.05);
+            animation: powerOn 1.5s ease-out forwards;
+        }
+
+        @keyframes powerOn {
+            0% { opacity: 0; filter: brightness(0) contrast(1.5); }
+            30% { opacity: 1; filter: brightness(1.2) contrast(1.2); box-shadow: inset 0 0 100px rgba(74, 222, 128, 0.15); }
+            100% { opacity: 1; filter: brightness(1) contrast(1); }
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.3), 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(74,222,128,0.05) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex items-center justify-center screen-glow relative">
+    
+    <div class="scanline z-0"></div>
+
+    <div class="absolute inset-0 overflow-hidden opacity-[0.03] pointer-events-none text-xs text-green-500 break-words leading-relaxed select-none" id="bg-code"></div>
+
+    <div class="z-10 w-full max-w-4xl p-8 md:p-12 border border-gray-800/60 rounded-xl bg-black/60 backdrop-blur-md shadow-2xl relative mx-4">
+        <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-green-500/50 to-transparent"></div>
+        
+        <div class="text-gray-500 text-xs md:text-sm mb-6 flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span>system@waprep:~$ ./init_club.sh</span>
+        </div>
+
+        <h1 class="text-2xl md:text-5xl font-bold text-white mb-4 text-glow leading-tight tracking-wide min-h-[3rem] md:min-h-[4rem]">
+            <span id="typed-text"></span><span class="cursor"></span>
+        </h1>
+
+        <div class="text-green-400 font-medium mt-6 opacity-0 transition-opacity duration-1000 text-sm md:text-base flex items-center" id="sub-text">
+            <span class="text-gray-500 mr-2">></span> 
+            <span>Status: Online & Ready to code.</span>
+        </div>
+    </div>
+
+    <script>
+        const textToType = "Welcome to Waprep Programming Club";
+        const typedTextElement = document.getElementById('typed-text');
+        const subTextElement = document.getElementById('sub-text');
+        let index = 0;
+
+        function typeText() {
+            if (index < textToType.length) {
+                typedTextElement.textContent += textToType.charAt(index);
+                index++;
+                
+                const isSpace = textToType.charAt(index - 1) === ' ';
+                const delay = isSpace ? 150 : (Math.random() * 60 + 40); 
+                
+                setTimeout(typeText, delay);
+            } else {
+                setTimeout(() => {
+                    subTextElement.classList.remove('opacity-0');
+                    subTextElement.classList.add('opacity-100');
+                }, 400);
+            }
+        }
+
+        window.onload = () => {
+            setTimeout(typeText, 800);
+        };
+
+        const bgCodeElement = document.getElementById('bg-code');
+        const codeSnippets = [
+            "function initClub() { console.log('Booting system...'); }",
+            "const waprep = new ProgrammingClub();",
+            "while(passion === true) { code(); debug(); learn(); }",
+            "import { Future } from 'waprep/students';",
+            "01010111 01100001 01110000 01110010 01100101 01110000",
+            "if (bugFound) { catchBug(); } else { deployProject(); }",
+            "document.addEventListener('DOMContentLoaded', startEngine);",
+            "// Make the world a better place through code.",
+            "export default WaprepClub;",
+            "{ status: 200, message: 'Hello World' }"
+        ];
+        
+        let bgHTML = '';
+        for(let i = 0; i < 150; i++) {
+            const randomSnippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+            bgHTML += randomSnippet + " &nbsp;&nbsp;&nbsp; ";
+        }
+        bgCodeElement.innerHTML = bgHTML;
+    </script>
+</body>
+</html>
