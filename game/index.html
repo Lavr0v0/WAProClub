@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>kk</title>
+        <style>
+            /* Reset CSS: Please avoid making changes here unless you know what you're doing :) */
+            *,
+            *::before,
+            *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+    
+            html, body {
+                width: 100%;
+                height: 100%;
+            }
+    
+            body {
+                line-height: 1;
+                font-family: Arial, sans-serif;
+                background-color: #040218;
+            }
+    
+            ol, ul {
+                list-style: none;
+            }
+    
+            img, video {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
+    
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+
+            .button-container {
+                display: flex;
+                gap: 20px;
+                margin: 20px;
+                justify-content: center;
+            }
+
+            .game-button {
+                padding: 15px 30px;
+                font-size: 18px;
+                font-weight: bold;
+                color: #fff;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+
+            .game-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            }
+
+            .game-button:active {
+                transform: translateY(0);
+            }
+        </style>
+    </head>
+    <body>
+        <div id= "game-container"></div>
+        <script src="./phaser.js"></script>
+        <script type="module" src="./src/main.js"></script>
+    </body>
+    </html>
